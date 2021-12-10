@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.0
--- Dumped by pg_dump version 14.0
+-- Dumped from database version 14.1
+-- Dumped by pg_dump version 14.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,6 +16,7 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+
 DROP DATABASE real_estate_app_database_v2;
 --
 -- Name: real_estate_app_database_v2; Type: DATABASE; Schema: -; Owner: -
@@ -26,38 +27,39 @@ CREATE DATABASE real_estate_app_database_v2;
 
 \connect real_estate_app_database_v2
 
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: Ads; Type: TABLE; Schema: public; Owner: postgres
+-- Name: ads; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."Ads" (
-    "ID" integer NOT NULL,
-    "People_ID" integer NOT NULL,
-    "House_ID" integer NOT NULL,
-    "Settlement_ID" integer NOT NULL,
-    "Apartment_number" text,
-    "Rooms_count" integer,
-    "Total_area" double precision,
-    "Living_areaa" double precision,
-    "Kitchen_area" double precision,
-    "Water_pipes" boolean,
-    "Gas" boolean,
-    "Electricity" boolean,
-    "Sewerage" boolean,
-    "Bathroom_type" text,
-    "Category" text,
-    "Ads_text" text,
-    "Price" double precision,
-    "Publication_or_update_time" text,
-    "Addition_information" text
+CREATE TABLE public.ads (
+    id integer NOT NULL,
+    people_id integer NOT NULL,
+    house_id integer NOT NULL,
+    settlement_id integer NOT NULL,
+    apartment_number text,
+    rooms_count integer,
+    total_area double precision,
+    living_area double precision,
+    kitchen_area double precision,
+    water_pipes boolean,
+    gas boolean,
+    electricity boolean,
+    sewerage boolean,
+    bathroom_type text,
+    category text,
+    ads_text text,
+    price double precision,
+    publication_or_update_time text,
+    addition_information text
 );
 
 
-ALTER TABLE public."Ads" OWNER TO postgres;
+ALTER TABLE public.ads OWNER TO postgres;
 
 --
 -- Name: Ads_House_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -78,7 +80,7 @@ ALTER TABLE public."Ads_House_ID_seq" OWNER TO postgres;
 -- Name: Ads_House_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Ads_House_ID_seq" OWNED BY public."Ads"."House_ID";
+ALTER SEQUENCE public."Ads_House_ID_seq" OWNED BY public.ads.house_id;
 
 
 --
@@ -100,7 +102,7 @@ ALTER TABLE public."Ads_ID_seq" OWNER TO postgres;
 -- Name: Ads_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Ads_ID_seq" OWNED BY public."Ads"."ID";
+ALTER SEQUENCE public."Ads_ID_seq" OWNED BY public.ads.id;
 
 
 --
@@ -122,7 +124,7 @@ ALTER TABLE public."Ads_People_ID_seq" OWNER TO postgres;
 -- Name: Ads_People_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Ads_People_ID_seq" OWNED BY public."Ads"."People_ID";
+ALTER SEQUENCE public."Ads_People_ID_seq" OWNED BY public.ads.people_id;
 
 
 --
@@ -144,20 +146,20 @@ ALTER TABLE public."Ads_Settlement_ID_seq" OWNER TO postgres;
 -- Name: Ads_Settlement_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Ads_Settlement_ID_seq" OWNED BY public."Ads"."Settlement_ID";
+ALTER SEQUENCE public."Ads_Settlement_ID_seq" OWNED BY public.ads.settlement_id;
 
 
 --
--- Name: Districts; Type: TABLE; Schema: public; Owner: postgres
+-- Name: districts; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."Districts" (
-    "ID" integer NOT NULL,
-    "Name" text
+CREATE TABLE public.districts (
+    id integer NOT NULL,
+    name text
 );
 
 
-ALTER TABLE public."Districts" OWNER TO postgres;
+ALTER TABLE public.districts OWNER TO postgres;
 
 --
 -- Name: Districts_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -178,22 +180,22 @@ ALTER TABLE public."Districts_ID_seq" OWNER TO postgres;
 -- Name: Districts_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Districts_ID_seq" OWNED BY public."Districts"."ID";
+ALTER SEQUENCE public."Districts_ID_seq" OWNED BY public.districts.id;
 
 
 --
--- Name: Documents; Type: TABLE; Schema: public; Owner: postgres
+-- Name: documents; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."Documents" (
-    "ID" integer NOT NULL,
-    "Tittle" text,
-    "Description" text,
-    "Sample" text
+CREATE TABLE public.documents (
+    id integer NOT NULL,
+    tittle text,
+    description text,
+    sample text
 );
 
 
-ALTER TABLE public."Documents" OWNER TO postgres;
+ALTER TABLE public.documents OWNER TO postgres;
 
 --
 -- Name: Documents_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -214,24 +216,24 @@ ALTER TABLE public."Documents_ID_seq" OWNER TO postgres;
 -- Name: Documents_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Documents_ID_seq" OWNED BY public."Documents"."ID";
+ALTER SEQUENCE public."Documents_ID_seq" OWNED BY public.documents.id;
 
 
 --
--- Name: Houses; Type: TABLE; Schema: public; Owner: postgres
+-- Name: houses; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."Houses" (
-    "ID" integer NOT NULL,
-    "Street_ID" integer NOT NULL,
-    "Type" text,
-    "Number" text,
-    "Housing_number" text,
-    "Land_area" double precision
+CREATE TABLE public.houses (
+    id integer NOT NULL,
+    street_id integer NOT NULL,
+    type text,
+    number text,
+    housing_number text,
+    land_area double precision
 );
 
 
-ALTER TABLE public."Houses" OWNER TO postgres;
+ALTER TABLE public.houses OWNER TO postgres;
 
 --
 -- Name: Houses_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -252,7 +254,7 @@ ALTER TABLE public."Houses_ID_seq" OWNER TO postgres;
 -- Name: Houses_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Houses_ID_seq" OWNED BY public."Houses"."ID";
+ALTER SEQUENCE public."Houses_ID_seq" OWNED BY public.houses.id;
 
 
 --
@@ -274,26 +276,26 @@ ALTER TABLE public."Houses_Street_ID_seq" OWNER TO postgres;
 -- Name: Houses_Street_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Houses_Street_ID_seq" OWNED BY public."Houses"."Street_ID";
+ALTER SEQUENCE public."Houses_Street_ID_seq" OWNED BY public.houses.street_id;
 
 
 --
--- Name: People; Type: TABLE; Schema: public; Owner: postgres
+-- Name: people; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."People" (
-    "ID" integer NOT NULL,
-    "Surname" text,
-    "Name" text,
-    "Patronymic" text,
-    "Phone" text,
-    "E-mail" text,
-    "Password" text,
-    "Realtor_firm_ID" integer NOT NULL
+CREATE TABLE public.people (
+    id integer NOT NULL,
+    surname text,
+    name text,
+    patronymic text,
+    phone text,
+    "e-mail" text,
+    password text,
+    realtor_firm_id integer NOT NULL
 );
 
 
-ALTER TABLE public."People" OWNER TO postgres;
+ALTER TABLE public.people OWNER TO postgres;
 
 --
 -- Name: People_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -314,7 +316,7 @@ ALTER TABLE public."People_ID_seq" OWNER TO postgres;
 -- Name: People_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."People_ID_seq" OWNED BY public."People"."ID";
+ALTER SEQUENCE public."People_ID_seq" OWNED BY public.people.id;
 
 
 --
@@ -336,24 +338,24 @@ ALTER TABLE public."People_Realtor_firm_ID_seq" OWNER TO postgres;
 -- Name: People_Realtor_firm_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."People_Realtor_firm_ID_seq" OWNED BY public."People"."Realtor_firm_ID";
+ALTER SEQUENCE public."People_Realtor_firm_ID_seq" OWNED BY public.people.realtor_firm_id;
 
 
 --
--- Name: Realtor_firms; Type: TABLE; Schema: public; Owner: postgres
+-- Name: realtor_firms; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."Realtor_firms" (
-    "ID" integer NOT NULL,
-    "House_ID" integer NOT NULL,
-    "Raiting" double precision,
-    "Phone" text,
-    "Mail" text,
-    "Description" text
+CREATE TABLE public.realtor_firms (
+    id integer NOT NULL,
+    house_id integer NOT NULL,
+    rating double precision,
+    phone text,
+    "e-mail" text,
+    description text
 );
 
 
-ALTER TABLE public."Realtor_firms" OWNER TO postgres;
+ALTER TABLE public.realtor_firms OWNER TO postgres;
 
 --
 -- Name: Realtor_firms_House_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -374,7 +376,7 @@ ALTER TABLE public."Realtor_firms_House_ID_seq" OWNER TO postgres;
 -- Name: Realtor_firms_House_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Realtor_firms_House_ID_seq" OWNED BY public."Realtor_firms"."House_ID";
+ALTER SEQUENCE public."Realtor_firms_House_ID_seq" OWNED BY public.realtor_firms.house_id;
 
 
 --
@@ -396,22 +398,22 @@ ALTER TABLE public."Realtor_firms_ID_seq" OWNER TO postgres;
 -- Name: Realtor_firms_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Realtor_firms_ID_seq" OWNED BY public."Realtor_firms"."ID";
+ALTER SEQUENCE public."Realtor_firms_ID_seq" OWNED BY public.realtor_firms.id;
 
 
 --
--- Name: Settlement; Type: TABLE; Schema: public; Owner: postgres
+-- Name: settlements; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."Settlement" (
-    "ID" integer NOT NULL,
-    "district_ID" integer NOT NULL,
-    "Type" text,
-    "Name" text
+CREATE TABLE public.settlements (
+    id integer NOT NULL,
+    district_id integer NOT NULL,
+    type text,
+    name text
 );
 
 
-ALTER TABLE public."Settlement" OWNER TO postgres;
+ALTER TABLE public.settlements OWNER TO postgres;
 
 --
 -- Name: Settlement_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -432,7 +434,7 @@ ALTER TABLE public."Settlement_ID_seq" OWNER TO postgres;
 -- Name: Settlement_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Settlement_ID_seq" OWNED BY public."Settlement"."ID";
+ALTER SEQUENCE public."Settlement_ID_seq" OWNED BY public.settlements.id;
 
 
 --
@@ -454,21 +456,21 @@ ALTER TABLE public."Settlement_district_ID_seq" OWNER TO postgres;
 -- Name: Settlement_district_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Settlement_district_ID_seq" OWNED BY public."Settlement"."district_ID";
+ALTER SEQUENCE public."Settlement_district_ID_seq" OWNED BY public.settlements.district_id;
 
 
 --
--- Name: Streets; Type: TABLE; Schema: public; Owner: postgres
+-- Name: streets; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."Streets" (
-    "ID" integer NOT NULL,
-    "Settlement_ID" integer NOT NULL,
-    "Name" text
+CREATE TABLE public.streets (
+    id integer NOT NULL,
+    settlement_id integer NOT NULL,
+    name text
 );
 
 
-ALTER TABLE public."Streets" OWNER TO postgres;
+ALTER TABLE public.streets OWNER TO postgres;
 
 --
 -- Name: Streets_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -489,7 +491,7 @@ ALTER TABLE public."Streets_ID_seq" OWNER TO postgres;
 -- Name: Streets_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Streets_ID_seq" OWNED BY public."Streets"."ID";
+ALTER SEQUENCE public."Streets_ID_seq" OWNED BY public.streets.id;
 
 
 --
@@ -511,182 +513,182 @@ ALTER TABLE public."Streets_Settlement_ID_seq" OWNER TO postgres;
 -- Name: Streets_Settlement_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public."Streets_Settlement_ID_seq" OWNED BY public."Streets"."Settlement_ID";
+ALTER SEQUENCE public."Streets_Settlement_ID_seq" OWNED BY public.streets.settlement_id;
 
 
 --
--- Name: Ads ID; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: ads id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Ads" ALTER COLUMN "ID" SET DEFAULT nextval('public."Ads_ID_seq"'::regclass);
-
-
---
--- Name: Ads People_ID; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Ads" ALTER COLUMN "People_ID" SET DEFAULT nextval('public."Ads_People_ID_seq"'::regclass);
+ALTER TABLE ONLY public.ads ALTER COLUMN id SET DEFAULT nextval('public."Ads_ID_seq"'::regclass);
 
 
 --
--- Name: Ads House_ID; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: ads people_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Ads" ALTER COLUMN "House_ID" SET DEFAULT nextval('public."Ads_House_ID_seq"'::regclass);
-
-
---
--- Name: Ads Settlement_ID; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Ads" ALTER COLUMN "Settlement_ID" SET DEFAULT nextval('public."Ads_Settlement_ID_seq"'::regclass);
+ALTER TABLE ONLY public.ads ALTER COLUMN people_id SET DEFAULT nextval('public."Ads_People_ID_seq"'::regclass);
 
 
 --
--- Name: Districts ID; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: ads house_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Districts" ALTER COLUMN "ID" SET DEFAULT nextval('public."Districts_ID_seq"'::regclass);
-
-
---
--- Name: Documents ID; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Documents" ALTER COLUMN "ID" SET DEFAULT nextval('public."Documents_ID_seq"'::regclass);
+ALTER TABLE ONLY public.ads ALTER COLUMN house_id SET DEFAULT nextval('public."Ads_House_ID_seq"'::regclass);
 
 
 --
--- Name: Houses ID; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: ads settlement_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Houses" ALTER COLUMN "ID" SET DEFAULT nextval('public."Houses_ID_seq"'::regclass);
-
-
---
--- Name: Houses Street_ID; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Houses" ALTER COLUMN "Street_ID" SET DEFAULT nextval('public."Houses_Street_ID_seq"'::regclass);
+ALTER TABLE ONLY public.ads ALTER COLUMN settlement_id SET DEFAULT nextval('public."Ads_Settlement_ID_seq"'::regclass);
 
 
 --
--- Name: People ID; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: districts id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."People" ALTER COLUMN "ID" SET DEFAULT nextval('public."People_ID_seq"'::regclass);
-
-
---
--- Name: People Realtor_firm_ID; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."People" ALTER COLUMN "Realtor_firm_ID" SET DEFAULT nextval('public."People_Realtor_firm_ID_seq"'::regclass);
+ALTER TABLE ONLY public.districts ALTER COLUMN id SET DEFAULT nextval('public."Districts_ID_seq"'::regclass);
 
 
 --
--- Name: Realtor_firms ID; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: documents id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Realtor_firms" ALTER COLUMN "ID" SET DEFAULT nextval('public."Realtor_firms_ID_seq"'::regclass);
-
-
---
--- Name: Realtor_firms House_ID; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Realtor_firms" ALTER COLUMN "House_ID" SET DEFAULT nextval('public."Realtor_firms_House_ID_seq"'::regclass);
+ALTER TABLE ONLY public.documents ALTER COLUMN id SET DEFAULT nextval('public."Documents_ID_seq"'::regclass);
 
 
 --
--- Name: Settlement ID; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: houses id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Settlement" ALTER COLUMN "ID" SET DEFAULT nextval('public."Settlement_ID_seq"'::regclass);
-
-
---
--- Name: Settlement district_ID; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Settlement" ALTER COLUMN "district_ID" SET DEFAULT nextval('public."Settlement_district_ID_seq"'::regclass);
+ALTER TABLE ONLY public.houses ALTER COLUMN id SET DEFAULT nextval('public."Houses_ID_seq"'::regclass);
 
 
 --
--- Name: Streets ID; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: houses street_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Streets" ALTER COLUMN "ID" SET DEFAULT nextval('public."Streets_ID_seq"'::regclass);
-
-
---
--- Name: Streets Settlement_ID; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Streets" ALTER COLUMN "Settlement_ID" SET DEFAULT nextval('public."Streets_Settlement_ID_seq"'::regclass);
+ALTER TABLE ONLY public.houses ALTER COLUMN street_id SET DEFAULT nextval('public."Houses_Street_ID_seq"'::regclass);
 
 
 --
--- Data for Name: Ads; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Name: people id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-COPY public."Ads" ("ID", "People_ID", "House_ID", "Settlement_ID", "Apartment_number", "Rooms_count", "Total_area", "Living_areaa", "Kitchen_area", "Water_pipes", "Gas", "Electricity", "Sewerage", "Bathroom_type", "Category", "Ads_text", "Price", "Publication_or_update_time", "Addition_information") FROM stdin;
+ALTER TABLE ONLY public.people ALTER COLUMN id SET DEFAULT nextval('public."People_ID_seq"'::regclass);
+
+
+--
+-- Name: people realtor_firm_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.people ALTER COLUMN realtor_firm_id SET DEFAULT nextval('public."People_Realtor_firm_ID_seq"'::regclass);
+
+
+--
+-- Name: realtor_firms id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.realtor_firms ALTER COLUMN id SET DEFAULT nextval('public."Realtor_firms_ID_seq"'::regclass);
+
+
+--
+-- Name: realtor_firms house_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.realtor_firms ALTER COLUMN house_id SET DEFAULT nextval('public."Realtor_firms_House_ID_seq"'::regclass);
+
+
+--
+-- Name: settlements id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.settlements ALTER COLUMN id SET DEFAULT nextval('public."Settlement_ID_seq"'::regclass);
+
+
+--
+-- Name: settlements district_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.settlements ALTER COLUMN district_id SET DEFAULT nextval('public."Settlement_district_ID_seq"'::regclass);
+
+
+--
+-- Name: streets id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.streets ALTER COLUMN id SET DEFAULT nextval('public."Streets_ID_seq"'::regclass);
+
+
+--
+-- Name: streets settlement_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.streets ALTER COLUMN settlement_id SET DEFAULT nextval('public."Streets_Settlement_ID_seq"'::regclass);
+
+
+--
+-- Data for Name: ads; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ads (id, people_id, house_id, settlement_id, apartment_number, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, electricity, sewerage, bathroom_type, category, ads_text, price, publication_or_update_time, addition_information) FROM stdin;
 \.
 
 
 --
--- Data for Name: Districts; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: districts; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Districts" ("ID", "Name") FROM stdin;
+COPY public.districts (id, name) FROM stdin;
 \.
 
 
 --
--- Data for Name: Documents; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: documents; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Documents" ("ID", "Tittle", "Description", "Sample") FROM stdin;
+COPY public.documents (id, tittle, description, sample) FROM stdin;
 \.
 
 
 --
--- Data for Name: Houses; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: houses; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Houses" ("ID", "Street_ID", "Type", "Number", "Housing_number", "Land_area") FROM stdin;
+COPY public.houses (id, street_id, type, number, housing_number, land_area) FROM stdin;
 \.
 
 
 --
--- Data for Name: People; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: people; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."People" ("ID", "Surname", "Name", "Patronymic", "Phone", "E-mail", "Password", "Realtor_firm_ID") FROM stdin;
+COPY public.people (id, surname, name, patronymic, phone, "e-mail", password, realtor_firm_id) FROM stdin;
 \.
 
 
 --
--- Data for Name: Realtor_firms; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: realtor_firms; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Realtor_firms" ("ID", "House_ID", "Raiting", "Phone", "Mail", "Description") FROM stdin;
+COPY public.realtor_firms (id, house_id, rating, phone, "e-mail", description) FROM stdin;
 \.
 
 
 --
--- Data for Name: Settlement; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: settlements; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Settlement" ("ID", "district_ID", "Type", "Name") FROM stdin;
+COPY public.settlements (id, district_id, type, name) FROM stdin;
 \.
 
 
 --
--- Data for Name: Streets; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: streets; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Streets" ("ID", "Settlement_ID", "Name") FROM stdin;
+COPY public.streets (id, settlement_id, name) FROM stdin;
 \.
 
 
@@ -803,131 +805,131 @@ SELECT pg_catalog.setval('public."Streets_Settlement_ID_seq"', 1, false);
 
 
 --
--- Name: Ads Ads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ads Ads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Ads"
-    ADD CONSTRAINT "Ads_pkey" PRIMARY KEY ("ID");
-
-
---
--- Name: Districts Districts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Districts"
-    ADD CONSTRAINT "Districts_pkey" PRIMARY KEY ("ID");
+ALTER TABLE ONLY public.ads
+    ADD CONSTRAINT "Ads_pkey" PRIMARY KEY (id);
 
 
 --
--- Name: Documents Documents_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: districts Districts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Documents"
-    ADD CONSTRAINT "Documents_pkey" PRIMARY KEY ("ID");
-
-
---
--- Name: Houses Houses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Houses"
-    ADD CONSTRAINT "Houses_pkey" PRIMARY KEY ("ID");
+ALTER TABLE ONLY public.districts
+    ADD CONSTRAINT "Districts_pkey" PRIMARY KEY (id);
 
 
 --
--- Name: People People_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: documents Documents_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."People"
-    ADD CONSTRAINT "People_pkey" PRIMARY KEY ("ID");
-
-
---
--- Name: Realtor_firms Realtor_firms_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Realtor_firms"
-    ADD CONSTRAINT "Realtor_firms_pkey" PRIMARY KEY ("ID");
+ALTER TABLE ONLY public.documents
+    ADD CONSTRAINT "Documents_pkey" PRIMARY KEY (id);
 
 
 --
--- Name: Settlement Settlement_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: houses Houses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Settlement"
-    ADD CONSTRAINT "Settlement_pkey" PRIMARY KEY ("ID");
-
-
---
--- Name: Streets Streets_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Streets"
-    ADD CONSTRAINT "Streets_pkey" PRIMARY KEY ("ID");
+ALTER TABLE ONLY public.houses
+    ADD CONSTRAINT "Houses_pkey" PRIMARY KEY (id);
 
 
 --
--- Name: Ads Ads_House_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: people People_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Ads"
-    ADD CONSTRAINT "Ads_House_ID_fkey" FOREIGN KEY ("House_ID") REFERENCES public."Houses"("ID") NOT VALID;
-
-
---
--- Name: Ads Ads_People_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Ads"
-    ADD CONSTRAINT "Ads_People_ID_fkey" FOREIGN KEY ("People_ID") REFERENCES public."People"("ID") NOT VALID;
+ALTER TABLE ONLY public.people
+    ADD CONSTRAINT "People_pkey" PRIMARY KEY (id);
 
 
 --
--- Name: Ads Ads_Settlement_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: realtor_firms Realtor_firms_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Ads"
-    ADD CONSTRAINT "Ads_Settlement_ID_fkey" FOREIGN KEY ("Settlement_ID") REFERENCES public."Settlement"("ID") NOT VALID;
-
-
---
--- Name: Houses Houses_Street_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Houses"
-    ADD CONSTRAINT "Houses_Street_ID_fkey" FOREIGN KEY ("Street_ID") REFERENCES public."Streets"("ID") NOT VALID;
+ALTER TABLE ONLY public.realtor_firms
+    ADD CONSTRAINT "Realtor_firms_pkey" PRIMARY KEY (id);
 
 
 --
--- Name: People People_Realtor_firm_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: settlements Settlement_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."People"
-    ADD CONSTRAINT "People_Realtor_firm_ID_fkey" FOREIGN KEY ("Realtor_firm_ID") REFERENCES public."Realtor_firms"("ID") NOT VALID;
-
-
---
--- Name: Realtor_firms Realtor_firms_House_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Realtor_firms"
-    ADD CONSTRAINT "Realtor_firms_House_ID_fkey" FOREIGN KEY ("House_ID") REFERENCES public."Houses"("ID") NOT VALID;
+ALTER TABLE ONLY public.settlements
+    ADD CONSTRAINT "Settlement_pkey" PRIMARY KEY (id);
 
 
 --
--- Name: Settlement Settlement_district_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: streets Streets_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Settlement"
-    ADD CONSTRAINT "Settlement_district_ID_fkey" FOREIGN KEY ("district_ID") REFERENCES public."Districts"("ID") NOT VALID;
+ALTER TABLE ONLY public.streets
+    ADD CONSTRAINT "Streets_pkey" PRIMARY KEY (id);
 
 
 --
--- Name: Streets Streets_Settlement_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ads Ads_House_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Streets"
-    ADD CONSTRAINT "Streets_Settlement_ID_fkey" FOREIGN KEY ("Settlement_ID") REFERENCES public."Settlement"("ID") NOT VALID;
+ALTER TABLE ONLY public.ads
+    ADD CONSTRAINT "Ads_House_ID_fkey" FOREIGN KEY (house_id) REFERENCES public.houses(id) NOT VALID;
+
+
+--
+-- Name: ads Ads_People_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ads
+    ADD CONSTRAINT "Ads_People_ID_fkey" FOREIGN KEY (people_id) REFERENCES public.people(id) NOT VALID;
+
+
+--
+-- Name: ads Ads_Settlement_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ads
+    ADD CONSTRAINT "Ads_Settlement_ID_fkey" FOREIGN KEY (settlement_id) REFERENCES public.settlements(id) NOT VALID;
+
+
+--
+-- Name: houses Houses_Street_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.houses
+    ADD CONSTRAINT "Houses_Street_ID_fkey" FOREIGN KEY (street_id) REFERENCES public.streets(id) NOT VALID;
+
+
+--
+-- Name: people People_Realtor_firm_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.people
+    ADD CONSTRAINT "People_Realtor_firm_ID_fkey" FOREIGN KEY (realtor_firm_id) REFERENCES public.realtor_firms(id) NOT VALID;
+
+
+--
+-- Name: realtor_firms Realtor_firms_House_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.realtor_firms
+    ADD CONSTRAINT "Realtor_firms_House_ID_fkey" FOREIGN KEY (house_id) REFERENCES public.houses(id) NOT VALID;
+
+
+--
+-- Name: settlements Settlement_district_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.settlements
+    ADD CONSTRAINT "Settlement_district_ID_fkey" FOREIGN KEY (district_id) REFERENCES public.districts(id) NOT VALID;
+
+
+--
+-- Name: streets Streets_Settlement_ID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.streets
+    ADD CONSTRAINT "Streets_Settlement_ID_fkey" FOREIGN KEY (settlement_id) REFERENCES public.settlements(id) NOT VALID;
 
 
 --
