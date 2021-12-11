@@ -16,7 +16,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-
 DROP DATABASE real_estate_app_database_v2;
 --
 -- Name: real_estate_app_database_v2; Type: DATABASE; Schema: -; Owner: -
@@ -27,6 +26,286 @@ CREATE DATABASE real_estate_app_database_v2;
 
 \connect real_estate_app_database_v2
 
+--
+-- Name: add_advert(integer, integer, integer, text, integer, double precision, double precision, double precision, boolean, boolean, boolean, boolean, text, text, text, double precision, text, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_advert(human_id integer, house_id integer, settlement_id integer, apartment_number text, rooms_count integer, total_area double precision, living_area double precision, kitchen_area double precision, water_pipes boolean, gas boolean, electricity boolean, sewerage boolean, bathroom_type text, category text, ads_text text, price double precision, publication_or_update_time text, additional_info text) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO ads (people_id, house_id, settlement_id, apartment_number, rooms_count, total_area, living_area, kitchen_area, 
+						   water_pipes, gas, electricity, sewerage, bathroom_type, category, ads_text, price, publication_or_update_time, addition_information)
+		VALUES (Human_id, House_id, Settlement_id, Apartment_number, 
+				Rooms_count, Total_area, Living_area, 
+				Kitchen_area, Water_pipes, Gas, Electricity, 
+				Sewerage, Bathroom_type, Category, Ads_text, Price, 
+				Publication_or_update_time, Additional_info);
+$$;
+
+
+ALTER FUNCTION public.add_advert(human_id integer, house_id integer, settlement_id integer, apartment_number text, rooms_count integer, total_area double precision, living_area double precision, kitchen_area double precision, water_pipes boolean, gas boolean, electricity boolean, sewerage boolean, bathroom_type text, category text, ads_text text, price double precision, publication_or_update_time text, additional_info text) OWNER TO postgres;
+
+--
+-- Name: add_advert(integer, integer, integer, text, integer, double precision, double precision, double precision, boolean, boolean, boolean, boolean, text, text, text, double precision, timestamp without time zone, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_advert(human_id integer, house_id integer, settlement_id integer, apartment_number text, rooms_count integer, total_area double precision, living_area double precision, kitchen_area double precision, water_pipes boolean, gas boolean, electricity boolean, sewerage boolean, bathroom_type text, category text, ads_text text, price double precision, publication_or_update_time timestamp without time zone, additional_info text) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO ads (people_id, house_id, settlement_id, apartment_number, rooms_count, total_area, living_area, kitchen_area, 
+						   water_pipes, gas, electricity, sewerage, bathroom_type, category, ads_text, price, publication_or_update_time, addition_information)
+		VALUES (Human_id, House_id, Settlement_id, Apartment_number, 
+				Rooms_count, Total_area, Living_area, 
+				Kitchen_area, Water_pipes, Gas, Electricity, 
+				Sewerage, Bathroom_type, Category, Ads_text, Price, 
+				Publication_or_update_time, Additional_info);
+$$;
+
+
+ALTER FUNCTION public.add_advert(human_id integer, house_id integer, settlement_id integer, apartment_number text, rooms_count integer, total_area double precision, living_area double precision, kitchen_area double precision, water_pipes boolean, gas boolean, electricity boolean, sewerage boolean, bathroom_type text, category text, ads_text text, price double precision, publication_or_update_time timestamp without time zone, additional_info text) OWNER TO postgres;
+
+--
+-- Name: add_advert(integer, integer, text, text, integer, double precision, double precision, double precision, boolean, boolean, boolean, boolean, text, text, text, double precision, text, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_advert(human_id integer, house_id integer, settlement_name text, apartment_number text, rooms_count integer, total_area double precision, living_area double precision, kitchen_area double precision, water_pipes boolean, gas boolean, electricity boolean, sewerage boolean, bathroom_type text, category text, ads_text text, price double precision, publication_or_update_time text, additional_info text) RETURNS TABLE(people_id integer)
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+	RETURN QUERY EXECUTE
+        format('INSERT INTO ads (people_id, house_id, settlement_id, apartment_number, rooms_count, total_area, living_area, kitchen_area, 
+						   water_pipes, gas, electricity, sewerage, bathroom_type, category, ads_text, price, publication_or_update_time, addition_information)
+		VALUES (Human_id, House_id, (SELECT get_id_by_name(''settlements'', %L)), Apartment_number, 
+				Rooms_count, Total_area, Living_area, 
+				Kitchen_area, Water_pipes, Gas, Electricity, 
+				Sewerage, Bathroom_type, Category, Ads_text, Price, 
+				TIMESTAMP %L, Additional_info); SELECT 1;', Settlement_name, Publication_or_update_time);
+END;		
+$$;
+
+
+ALTER FUNCTION public.add_advert(human_id integer, house_id integer, settlement_name text, apartment_number text, rooms_count integer, total_area double precision, living_area double precision, kitchen_area double precision, water_pipes boolean, gas boolean, electricity boolean, sewerage boolean, bathroom_type text, category text, ads_text text, price double precision, publication_or_update_time text, additional_info text) OWNER TO postgres;
+
+--
+-- Name: add_district(text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_district(name text) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO districts(name) VALUES (name)
+	$$;
+
+
+ALTER FUNCTION public.add_district(name text) OWNER TO postgres;
+
+--
+-- Name: add_house(text, text, text, text, double precision); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_house(street_name text, type text, number text, housing_number text, land_area double precision) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+	IF Type = 'private' THEN
+		INSERT INTO houses(street_id, type, number, housing_number, land_area) 
+			VALUES ((SELECT get_id_by_name('streets', Street_name)), Type, Number, Null, Land_area);
+	ELSE
+		IF Housing_number IS NOT Null THEN
+			INSERT INTO houses(street_id, type, number, housing_number, land_area) 
+				VALUES ((SELECT get_id_by_name('streets', Street_name)), Type, Number, Housing_number, Null);
+		END IF;
+	END IF;
+END
+$$;
+
+
+ALTER FUNCTION public.add_house(street_name text, type text, number text, housing_number text, land_area double precision) OWNER TO postgres;
+
+--
+-- Name: add_human(text, text, text, text, text, text, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_human(surname text, name text, patronymic text, phone text, email text, password text, realtor_firm_id integer) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO people (surname, name, patronymic, phone, email, password, realtor_firm_id) 
+		VALUES (Surname, Name, Patronymic, Phone, Email, Password, Realtor_firm_id);
+$$;
+
+
+ALTER FUNCTION public.add_human(surname text, name text, patronymic text, phone text, email text, password text, realtor_firm_id integer) OWNER TO postgres;
+
+--
+-- Name: add_human(text, text, text, text, text, text, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_human(surname text, name text, patronymic text, phone text, email text, password text, realtor_firm_name text) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO people (surname, name, patronymic, phone, email, password, realtor_firm_id) 
+		VALUES (Surname, Name, Patronymic, Phone, Email, Password, (SELECT get_id_by_name('realtor_firms', format('%s', Realtor_firm_name))));
+$$;
+
+
+ALTER FUNCTION public.add_human(surname text, name text, patronymic text, phone text, email text, password text, realtor_firm_name text) OWNER TO postgres;
+
+--
+-- Name: add_person(integer, text, text, text, text, text, text, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_person(id integer, surnm text, name text, patronymic text, phone text, email text, passwd text, r_firm_id integer) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO people (surname, name, patronymic, phone, email, password, realtor_firm_id)
+		   VALUES (surnm, name, patronymic, phone, email, passwd, r_firm_id)
+	$$;
+
+
+ALTER FUNCTION public.add_person(id integer, surnm text, name text, patronymic text, phone text, email text, passwd text, r_firm_id integer) OWNER TO postgres;
+
+--
+-- Name: add_realtor_firm(integer, double precision, text, text, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_realtor_firm(house_id integer, rating double precision, phone text, email text, description text) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO realtor_firms (house_id, rating, phone, email, description) 
+		VALUES (House_id, Rating, Phone, Email, Description);
+$$;
+
+
+ALTER FUNCTION public.add_realtor_firm(house_id integer, rating double precision, phone text, email text, description text) OWNER TO postgres;
+
+--
+-- Name: add_realtor_firm(integer, text, double precision, text, text, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_realtor_firm(house_id integer, name text, rating double precision, phone text, email text, description text) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO realtor_firms (house_id, name, rating, phone, email, description) 
+		VALUES (House_id, Name, Rating, Phone, Email, Description);
+$$;
+
+
+ALTER FUNCTION public.add_realtor_firm(house_id integer, name text, rating double precision, phone text, email text, description text) OWNER TO postgres;
+
+--
+-- Name: add_region(text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_region(name text) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO districts(name) VALUES (name)
+	$$;
+
+
+ALTER FUNCTION public.add_region(name text) OWNER TO postgres;
+
+--
+-- Name: add_settlement(integer, text, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_settlement(distr_id integer, type text, name text) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO settlements(district_id, type, name) 
+		VALUES (distr_id, type, (SELECT get_id_by_name('districts', format('%L', name))))
+	$$;
+
+
+ALTER FUNCTION public.add_settlement(distr_id integer, type text, name text) OWNER TO postgres;
+
+--
+-- Name: add_settlement(text, text, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_settlement(distr_name text, type text, name text) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO settlements(district_id, type, name) 
+		VALUES ((SELECT get_id_by_name('districts', format('%s', distr_name))), type, name)
+	$$;
+
+
+ALTER FUNCTION public.add_settlement(distr_name text, type text, name text) OWNER TO postgres;
+
+--
+-- Name: add_street(integer, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_street(settlement_id integer, name text) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO streets(settlement_id, name) VALUES (settlement_id, name)
+$$;
+
+
+ALTER FUNCTION public.add_street(settlement_id integer, name text) OWNER TO postgres;
+
+--
+-- Name: add_street(text, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_street(settlement_name text, name text) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+	INSERT INTO streets(settlement_id, name) 
+		VALUES ((SELECT get_id_by_name('settlements', format('%s', settlement_name))), name);
+END
+$$;
+
+
+ALTER FUNCTION public.add_street(settlement_name text, name text) OWNER TO postgres;
+
+--
+-- Name: get_district_id_by_name(text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.get_district_id_by_name(name text) RETURNS integer
+    LANGUAGE sql
+    AS $$
+		SELECT id 
+		FROM districts d
+		WHERE d.name = name
+	$$;
+
+
+ALTER FUNCTION public.get_district_id_by_name(name text) OWNER TO postgres;
+
+--
+-- Name: get_id_by_name(text, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.get_id_by_name(input_table text, name_obj text) RETURNS TABLE(id integer)
+    LANGUAGE plpgsql
+    AS $$
+	BEGIN
+		RETURN QUERY EXECUTE
+        format('SELECT d.id FROM %I d WHERE d.name = %L', input_table, name_obj);	
+	END
+	$$;
+
+
+ALTER FUNCTION public.get_id_by_name(input_table text, name_obj text) OWNER TO postgres;
+
+--
+-- Name: get_login_data(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.get_login_data() RETURNS TABLE(email text, password text)
+    LANGUAGE sql
+    AS $$
+	SELECT email, password
+	FROM people;
+$$;
+
+
+ALTER FUNCTION public.get_login_data() OWNER TO postgres;
 
 SET default_tablespace = '';
 
@@ -54,8 +333,8 @@ CREATE TABLE public.ads (
     category text,
     ads_text text,
     price double precision,
-    publication_or_update_time text,
-    addition_information text
+    addition_information text,
+    publication_or_update_time timestamp without time zone
 );
 
 
@@ -155,7 +434,7 @@ ALTER SEQUENCE public."Ads_Settlement_ID_seq" OWNED BY public.ads.settlement_id;
 
 CREATE TABLE public.districts (
     id integer NOT NULL,
-    name text
+    name text NOT NULL
 );
 
 
@@ -289,7 +568,7 @@ CREATE TABLE public.people (
     name text,
     patronymic text,
     phone text,
-    "e-mail" text,
+    email text,
     password text,
     realtor_firm_id integer NOT NULL
 );
@@ -350,8 +629,9 @@ CREATE TABLE public.realtor_firms (
     house_id integer NOT NULL,
     rating double precision,
     phone text,
-    "e-mail" text,
-    description text
+    email text,
+    description text,
+    name text
 );
 
 
@@ -632,7 +912,9 @@ ALTER TABLE ONLY public.streets ALTER COLUMN settlement_id SET DEFAULT nextval('
 -- Data for Name: ads; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.ads (id, people_id, house_id, settlement_id, apartment_number, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, electricity, sewerage, bathroom_type, category, ads_text, price, publication_or_update_time, addition_information) FROM stdin;
+COPY public.ads (id, people_id, house_id, settlement_id, apartment_number, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, electricity, sewerage, bathroom_type, category, ads_text, price, addition_information, publication_or_update_time) FROM stdin;
+1	8	15	6	58	3	56.2	40.5	5	t	t	t	t	совмещённый	продажа	Самая лучшая квартира	500000	\N	2021-05-02 08:00:54
+2	8	15	5	58	3	56.2	40.5	4	f	f	t	t	раздельный	продажа	Самая лучшая квартира	500000	\N	2021-05-02 08:00:54
 \.
 
 
@@ -641,6 +923,12 @@ COPY public.ads (id, people_id, house_id, settlement_id, apartment_number, rooms
 --
 
 COPY public.districts (id, name) FROM stdin;
+9	Кстовский
+10	Арзамасский
+11	Чкаловский
+12	Богородский
+13	Городецкий
+15	zero
 \.
 
 
@@ -657,6 +945,10 @@ COPY public.documents (id, tittle, description, sample) FROM stdin;
 --
 
 COPY public.houses (id, street_id, type, number, housing_number, land_area) FROM stdin;
+15	5	multiroom	75	2	\N
+16	4	private	12	\N	45
+17	5	multiroom	26Г	6	\N
+18	19	private	1	\N	\N
 \.
 
 
@@ -664,7 +956,10 @@ COPY public.houses (id, street_id, type, number, housing_number, land_area) FROM
 -- Data for Name: people; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.people (id, surname, name, patronymic, phone, "e-mail", password, realtor_firm_id) FROM stdin;
+COPY public.people (id, surname, name, patronymic, phone, email, password, realtor_firm_id) FROM stdin;
+8	Мазаева	Антонина	Петровна	2566565	antonina@gmail.com	THeY_Call_It_STeaM	5
+14	Грибоедова	Наталья	Ивановна	89038652995	hey.natasha@gmail.com	Is_42_The_Answer?	5
+15	zero	zero	zero	+70000000000	o@o.o	zero	10
 \.
 
 
@@ -672,7 +967,10 @@ COPY public.people (id, surname, name, patronymic, phone, "e-mail", password, re
 -- Data for Name: realtor_firms; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.realtor_firms (id, house_id, rating, phone, "e-mail", description) FROM stdin;
+COPY public.realtor_firms (id, house_id, rating, phone, email, description, name) FROM stdin;
+5	16	4.3	297-89-22	top_realtors.here@inbox.ru	Top of the top company ever!	TopTopCompany
+6	15	7.3	+7253297-89-22	top_realtors_nowhere@tambox.ru	Почти что банкроты...	GoodRealtors
+10	18	0	+70000000000	o@o.o	zero	zero
 \.
 
 
@@ -681,6 +979,12 @@ COPY public.realtor_firms (id, house_id, rating, phone, "e-mail", description) F
 --
 
 COPY public.settlements (id, district_id, type, name) FROM stdin;
+5	9	село	Федяково
+6	11	село	Пурех
+7	12	село	Новинки
+8	13	город	Заволжье
+10	11	село	Катунки
+12	15	zero	zero
 \.
 
 
@@ -689,6 +993,14 @@ COPY public.settlements (id, district_id, type, name) FROM stdin;
 --
 
 COPY public.streets (id, settlement_id, name) FROM stdin;
+1	5	Дубравная
+2	5	Молодёжная
+3	5	Советская
+4	6	Центральная
+5	7	Прекрасная
+6	8	Пушкина
+15	6	Ровная
+19	12	zero
 \.
 
 
@@ -703,7 +1015,7 @@ SELECT pg_catalog.setval('public."Ads_House_ID_seq"', 1, false);
 -- Name: Ads_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Ads_ID_seq"', 1, false);
+SELECT pg_catalog.setval('public."Ads_ID_seq"', 2, true);
 
 
 --
@@ -724,7 +1036,7 @@ SELECT pg_catalog.setval('public."Ads_Settlement_ID_seq"', 1, false);
 -- Name: Districts_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Districts_ID_seq"', 1, false);
+SELECT pg_catalog.setval('public."Districts_ID_seq"', 15, true);
 
 
 --
@@ -738,7 +1050,7 @@ SELECT pg_catalog.setval('public."Documents_ID_seq"', 1, false);
 -- Name: Houses_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Houses_ID_seq"', 1, false);
+SELECT pg_catalog.setval('public."Houses_ID_seq"', 18, true);
 
 
 --
@@ -752,7 +1064,7 @@ SELECT pg_catalog.setval('public."Houses_Street_ID_seq"', 1, false);
 -- Name: People_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."People_ID_seq"', 1, false);
+SELECT pg_catalog.setval('public."People_ID_seq"', 15, true);
 
 
 --
@@ -773,14 +1085,14 @@ SELECT pg_catalog.setval('public."Realtor_firms_House_ID_seq"', 1, false);
 -- Name: Realtor_firms_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Realtor_firms_ID_seq"', 1, false);
+SELECT pg_catalog.setval('public."Realtor_firms_ID_seq"', 10, true);
 
 
 --
 -- Name: Settlement_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Settlement_ID_seq"', 1, false);
+SELECT pg_catalog.setval('public."Settlement_ID_seq"', 12, true);
 
 
 --
@@ -794,7 +1106,7 @@ SELECT pg_catalog.setval('public."Settlement_district_ID_seq"', 1, false);
 -- Name: Streets_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Streets_ID_seq"', 1, false);
+SELECT pg_catalog.setval('public."Streets_ID_seq"', 19, true);
 
 
 --
