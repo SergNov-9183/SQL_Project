@@ -18,13 +18,14 @@ SET row_security = off;
 
 DROP DATABASE real_estate_app_database_v3;
 --
--- Name: real_estate_app_database_v2; Type: DATABASE; Schema: -; Owner: -
+-- Name: real_estate_app_database_v3; Type: DATABASE; Schema: -; Owner: -
 --
 
 CREATE DATABASE real_estate_app_database_v3;
 
 
 \connect real_estate_app_database_v3
+
 
 
 SET default_tablespace = '';
@@ -519,6 +520,8 @@ ALTER SEQUENCE public."Streets_Settlement_ID_seq" OWNED BY public.streets.settle
 -- Data for Name: ads; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+SET client_encoding TO 'UTF8';
+
 COPY public.ads (id, people_id, house_id, settlement_id, apartment_number, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, electricity, sewerage, bathroom_type, category, ads_text, price, publication_or_update_time, addition_information) FROM stdin;
 \.
 
@@ -528,6 +531,9 @@ COPY public.ads (id, people_id, house_id, settlement_id, apartment_number, rooms
 --
 
 COPY public.districts (id, name) FROM stdin;
+10	Кстовский
+11	Борский
+12	Городецкий
 \.
 
 
@@ -818,14 +824,176 @@ ALTER TABLE ONLY public.settlements
 ALTER TABLE ONLY public.streets
     ADD CONSTRAINT "Streets_Settlement_ID_fkey" FOREIGN KEY (settlement_id) REFERENCES public.settlements(id) NOT VALID;
 
-CREATE FUNCTION public.add_district(id integer, name text) RETURNS void
+
+CREATE FUNCTION public.add_district(p_id integer, p_name text) RETURNS void
     LANGUAGE sql
     AS $$
-INSERT INTO districts(name) VALUES (name)
+	INSERT INTO public.districts(id, name) VALUES (p_id, p_name)
 $$;
 
 
-ALTER FUNCTION public.add_district(id integer, name text) OWNER TO postgres;
+ALTER FUNCTION public.add_district(p_id integer, p_name text) OWNER TO postgres;
+
+--
+-- Name: add_house(integer, integer, integer, text, text, double precision); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_house(p_id integer, p_street_id integer, p_type integer, p_number text, p_housing_number text, p_land_area double precision) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO houses(id, street_id, type, number, housing_number, land_area) 
+		VALUES (p_id, p_street_id, p_type, p_number, p_housing_number, p_land_area)
+$$;
+
+
+ALTER FUNCTION public.add_house(p_id integer, p_street_id integer, p_type integer, p_number text, p_housing_number text, p_land_area double precision) OWNER TO postgres;
+
+--
+-- Name: add_settlement(integer, integer, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_settlement(id integer, type integer, name text) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO settlements(id, type, name) VALUES (id, type, name)
+$$;
+
+
+ALTER FUNCTION public.add_settlement(id integer, type integer, name text) OWNER TO postgres;
+
+--
+-- Name: add_street(integer, integer, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_street(id integer, settle_id integer, name text) RETURNS void
+    LANGUAGE sql
+    AS $$
+	INSERT INTO streets(id, settlement_id, name) VALUES (id, settle_id, name)
+$$;
+
+
+ALTER FUNCTION public.add_street(id integer, settle_id integer, name text) OWNER TO postgres;
+
+--
+-- Name: delete_house(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.delete_house(p_id integer) RETURNS void
+    LANGUAGE sql
+    AS $$
+	DELETE FROM houses WHERE id = p_id;
+$$;
+
+
+ALTER FUNCTION public.delete_house(p_id integer) OWNER TO postgres;
+
+--
+-- Name: get_houses(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.get_houses() RETURNS TABLE(id integer, street_id integer, type integer, number text, housing_number text, land_area double precision)
+    LANGUAGE sql
+    AS $$
+	SELECT * FROM houses;
+$$;
+
+
+ALTER FUNCTION public.get_houses() OWNER TO postgres;
+
+--
+-- Name: get_settlements(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.get_settlements() RETURNS TABLE(id integer, district_id integer, type integer, name text)
+    LANGUAGE sql
+    AS $$
+	SELECT * FROM settlements;
+$$;
+
+
+ALTER FUNCTION public.get_settlements() OWNER TO postgres;
+
+--
+-- Name: get_streets(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.get_streets() RETURNS TABLE(id integer, settlement_id integer, name text)
+    LANGUAGE sql
+    AS $$
+	SELECT * FROM streets;
+$$;
+
+
+ALTER FUNCTION public.get_streets() OWNER TO postgres;
+
+--
+-- Name: remove_settlement(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.remove_settlement(id integer) RETURNS void
+    LANGUAGE sql
+    AS $$
+	DELETE FROM settlements WHERE settlements.id = remove_settlement.id;
+$$;
+
+
+ALTER FUNCTION public.remove_settlement(id integer) OWNER TO postgres;
+
+--
+-- Name: remove_street(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.remove_street(id integer) RETURNS void
+    LANGUAGE sql
+    AS $$
+	DELETE FROM streets WHERE streets.id = remove_street.id;
+$$;
+
+
+ALTER FUNCTION public.remove_street(id integer) OWNER TO postgres;
+
+--
+-- Name: update_houses(integer, integer, integer, text, text, double precision); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.update_houses(p_id integer, p_street_id integer, p_type integer, p_number text, p_housing_number text, p_land_area double precision) RETURNS void
+    LANGUAGE sql
+    AS $$
+	
+	UPDATE houses SET (street_id, type, number, housing_number, land_area) = 
+					  (p_street_id, p_type, p_number, p_housing_number, p_land_area)
+		WHERE id = p_id;
+$$;
+
+
+ALTER FUNCTION public.update_houses(p_id integer, p_street_id integer, p_type integer, p_number text, p_housing_number text, p_land_area double precision) OWNER TO postgres;
+
+--
+-- Name: update_settlements(integer, integer, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.update_settlements(p_id integer, p_type integer, p_name text) RETURNS void
+    LANGUAGE sql
+    AS $$
+	UPDATE settlements SET (type, name) = (p_type, p_name) WHERE id = p_id;
+$$;
+
+
+ALTER FUNCTION public.update_settlements(p_id integer, p_type integer, p_name text) OWNER TO postgres;
+
+--
+-- Name: update_streets(text, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.update_streets(p_name text, p_id integer) RETURNS void
+    LANGUAGE sql
+    AS $$
+	UPDATE streets SET name = p_name WHERE id = p_id;
+$$;
+
+
+ALTER FUNCTION public.update_streets(p_name text, p_id integer) OWNER TO postgres;
+
 
 
 --
