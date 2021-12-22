@@ -5,7 +5,7 @@
 -- Dumped from database version 14.1
 -- Dumped by pg_dump version 14.1
 
--- Started on 2021-12-22 23:28:06
+-- Started on 2021-12-23 00:32:45
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -20,7 +20,7 @@ SET row_security = off;
 
 DROP DATABASE test1;
 --
--- TOC entry 3412 (class 1262 OID 42346)
+-- TOC entry 3416 (class 1262 OID 42346)
 -- Name: test1; Type: DATABASE; Schema: -; Owner: -
 --
 
@@ -41,7 +41,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 220 (class 1255 OID 42347)
+-- TOC entry 221 (class 1255 OID 42347)
 -- Name: add_user(integer, text, text, text, text, text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -51,7 +51,7 @@ CREATE FUNCTION public.add_user(id integer, surname text, name text, patronymic 
 
 
 --
--- TOC entry 221 (class 1255 OID 42348)
+-- TOC entry 223 (class 1255 OID 42348)
 -- Name: ads_history_after(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -61,7 +61,7 @@ CREATE FUNCTION public.ads_history_after() RETURNS trigger
 
 
 --
--- TOC entry 222 (class 1255 OID 42349)
+-- TOC entry 224 (class 1255 OID 42349)
 -- Name: ads_history_before(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -71,7 +71,40 @@ CREATE FUNCTION public.ads_history_before() RETURNS trigger
 
 
 --
--- TOC entry 226 (class 1255 OID 42350)
+-- TOC entry 220 (class 1255 OID 42480)
+-- Name: calculate_sq_m_price_ins(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.calculate_sq_m_price_ins() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+ 	UPDATE ads SET price_per_sq_m = round((NEW.price / NEW.total_area)::numeric, 1)
+ 		WHERE id = NEW.id;
+	RETURN NEW;
+END;
+$$;
+
+
+--
+-- TOC entry 222 (class 1255 OID 42481)
+-- Name: calculate_sq_m_price_upd(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.calculate_sq_m_price_upd() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+ 	IF (NEW.id = OLD.id) THEN
+		NEW.price_per_sq_m = round((NEW.price / NEW.total_area)::numeric, 1);
+ 	END IF;
+	RETURN NEW;
+END;
+$$;
+
+
+--
+-- TOC entry 228 (class 1255 OID 42350)
 -- Name: get_house_info(integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -81,7 +114,7 @@ CREATE FUNCTION public.get_house_info(id integer) RETURNS TABLE(type integer, nu
 
 
 --
--- TOC entry 227 (class 1255 OID 42351)
+-- TOC entry 229 (class 1255 OID 42351)
 -- Name: get_settlement_info(integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -91,7 +124,7 @@ CREATE FUNCTION public.get_settlement_info(id integer) RETURNS TABLE(id integer,
 
 
 --
--- TOC entry 228 (class 1255 OID 42352)
+-- TOC entry 230 (class 1255 OID 42352)
 -- Name: get_user(text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -101,7 +134,7 @@ CREATE FUNCTION public.get_user(phone text) RETURNS TABLE(id integer, surname te
 
 
 --
--- TOC entry 237 (class 1255 OID 42353)
+-- TOC entry 239 (class 1255 OID 42353)
 -- Name: insert_ads(integer, integer, integer, integer, integer, integer, double precision, double precision, double precision, boolean, boolean, boolean, integer, text, integer, text, text, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -111,7 +144,7 @@ CREATE FUNCTION public.insert_ads(id integer, people_id integer, house_id intege
 
 
 --
--- TOC entry 238 (class 1255 OID 42354)
+-- TOC entry 240 (class 1255 OID 42354)
 -- Name: insert_houses(integer, integer, integer, text, text, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -121,7 +154,7 @@ CREATE FUNCTION public.insert_houses(id integer, street_id integer, type integer
 
 
 --
--- TOC entry 239 (class 1255 OID 42355)
+-- TOC entry 241 (class 1255 OID 42355)
 -- Name: insert_settlements(integer, integer, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -131,7 +164,7 @@ CREATE FUNCTION public.insert_settlements(id integer, type integer, name text) R
 
 
 --
--- TOC entry 240 (class 1255 OID 42356)
+-- TOC entry 242 (class 1255 OID 42356)
 -- Name: insert_streets(integer, integer, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -141,7 +174,7 @@ CREATE FUNCTION public.insert_streets(id integer, settlement_id integer, name te
 
 
 --
--- TOC entry 241 (class 1255 OID 42357)
+-- TOC entry 243 (class 1255 OID 42357)
 -- Name: min_user(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -151,7 +184,7 @@ CREATE FUNCTION public.min_user() RETURNS TABLE(adminid integer)
 
 
 --
--- TOC entry 242 (class 1255 OID 42358)
+-- TOC entry 244 (class 1255 OID 42358)
 -- Name: remove_ads(integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -161,7 +194,7 @@ CREATE FUNCTION public.remove_ads(id integer) RETURNS void
 
 
 --
--- TOC entry 243 (class 1255 OID 42359)
+-- TOC entry 245 (class 1255 OID 42359)
 -- Name: remove_houses(integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -171,7 +204,7 @@ CREATE FUNCTION public.remove_houses(id integer) RETURNS void
 
 
 --
--- TOC entry 244 (class 1255 OID 42360)
+-- TOC entry 246 (class 1255 OID 42360)
 -- Name: remove_settlements(integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -181,7 +214,7 @@ CREATE FUNCTION public.remove_settlements(id integer) RETURNS void
 
 
 --
--- TOC entry 245 (class 1255 OID 42361)
+-- TOC entry 247 (class 1255 OID 42361)
 -- Name: remove_streets(integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -191,7 +224,7 @@ CREATE FUNCTION public.remove_streets(id integer) RETURNS void
 
 
 --
--- TOC entry 246 (class 1255 OID 42362)
+-- TOC entry 248 (class 1255 OID 42362)
 -- Name: select_ads(text, integer, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -201,7 +234,7 @@ CREATE FUNCTION public.select_ads(name_filter text, type integer, user_id intege
 
 
 --
--- TOC entry 247 (class 1255 OID 42363)
+-- TOC entry 249 (class 1255 OID 42363)
 -- Name: select_houses(text, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -211,7 +244,7 @@ CREATE FUNCTION public.select_houses(name_filter text, street_id integer) RETURN
 
 
 --
--- TOC entry 248 (class 1255 OID 42364)
+-- TOC entry 250 (class 1255 OID 42364)
 -- Name: select_settlements(text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -221,7 +254,7 @@ CREATE FUNCTION public.select_settlements(name_filter text) RETURNS TABLE(id int
 
 
 --
--- TOC entry 249 (class 1255 OID 42365)
+-- TOC entry 251 (class 1255 OID 42365)
 -- Name: select_streets(text, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -231,7 +264,7 @@ CREATE FUNCTION public.select_streets(name_filter text, settlement_id integer) R
 
 
 --
--- TOC entry 250 (class 1255 OID 42366)
+-- TOC entry 252 (class 1255 OID 42366)
 -- Name: update_ads(integer, integer, integer, double precision, double precision, double precision, boolean, boolean, boolean, integer, text, integer, text, text, integer, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -241,7 +274,7 @@ CREATE FUNCTION public.update_ads(house_id integer, settlement_id integer, rooms
 
 
 --
--- TOC entry 251 (class 1255 OID 42367)
+-- TOC entry 253 (class 1255 OID 42367)
 -- Name: update_houses(integer, text, text, integer, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -251,7 +284,7 @@ CREATE FUNCTION public.update_houses(type integer, number text, housing_number t
 
 
 --
--- TOC entry 252 (class 1255 OID 42368)
+-- TOC entry 254 (class 1255 OID 42368)
 -- Name: update_settlements(integer, text, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -261,7 +294,7 @@ CREATE FUNCTION public.update_settlements(type integer, name text, id integer) R
 
 
 --
--- TOC entry 253 (class 1255 OID 42369)
+-- TOC entry 255 (class 1255 OID 42369)
 -- Name: update_streets(text, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -337,7 +370,7 @@ CREATE SEQUENCE public.ads_id_seq
 
 
 --
--- TOC entry 3413 (class 0 OID 0)
+-- TOC entry 3417 (class 0 OID 0)
 -- Dependencies: 211
 -- Name: ads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -375,7 +408,7 @@ CREATE SEQUENCE public.houses_id_seq
 
 
 --
--- TOC entry 3414 (class 0 OID 0)
+-- TOC entry 3418 (class 0 OID 0)
 -- Dependencies: 213
 -- Name: houses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -414,7 +447,7 @@ CREATE SEQUENCE public.people_id_seq
 
 
 --
--- TOC entry 3415 (class 0 OID 0)
+-- TOC entry 3419 (class 0 OID 0)
 -- Dependencies: 215
 -- Name: people_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -449,7 +482,7 @@ CREATE SEQUENCE public.settlements_id_seq
 
 
 --
--- TOC entry 3416 (class 0 OID 0)
+-- TOC entry 3420 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: settlements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -484,7 +517,7 @@ CREATE SEQUENCE public.streets_id_seq
 
 
 --
--- TOC entry 3417 (class 0 OID 0)
+-- TOC entry 3421 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: streets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -493,7 +526,7 @@ ALTER SEQUENCE public.streets_id_seq OWNED BY public.streets.id;
 
 
 --
--- TOC entry 3223 (class 2604 OID 42421)
+-- TOC entry 3225 (class 2604 OID 42421)
 -- Name: ads id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -501,7 +534,7 @@ ALTER TABLE ONLY public.ads ALTER COLUMN id SET DEFAULT nextval('public.ads_id_s
 
 
 --
--- TOC entry 3227 (class 2604 OID 42422)
+-- TOC entry 3229 (class 2604 OID 42422)
 -- Name: houses id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -509,7 +542,7 @@ ALTER TABLE ONLY public.houses ALTER COLUMN id SET DEFAULT nextval('public.house
 
 
 --
--- TOC entry 3228 (class 2604 OID 42423)
+-- TOC entry 3230 (class 2604 OID 42423)
 -- Name: people id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -517,7 +550,7 @@ ALTER TABLE ONLY public.people ALTER COLUMN id SET DEFAULT nextval('public.peopl
 
 
 --
--- TOC entry 3230 (class 2604 OID 42424)
+-- TOC entry 3232 (class 2604 OID 42424)
 -- Name: settlements id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -525,7 +558,7 @@ ALTER TABLE ONLY public.settlements ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 3231 (class 2604 OID 42425)
+-- TOC entry 3233 (class 2604 OID 42425)
 -- Name: streets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -533,15 +566,16 @@ ALTER TABLE ONLY public.streets ALTER COLUMN id SET DEFAULT nextval('public.stre
 
 
 --
--- TOC entry 3396 (class 0 OID 42370)
+-- TOC entry 3400 (class 0 OID 42370)
 -- Dependencies: 209
 -- Data for Name: ads; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.ads (id, people_id, house_id, settlement_id, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, sewerage, bathroom_type, type, ads_text, price, publication_or_update_time, addition_information, settlement_house_type, price_per_sq_m) VALUES (7, 3, 29, NULL, 4, 76.6, 65, 13.5, true, false, true, 1, 2, 'Лучшее предложение за свои деньги!', 3500000, '23 декабря 2021 г. - 0:27:11', '', 0, 45691.9);
 
 
 --
--- TOC entry 3397 (class 0 OID 42387)
+-- TOC entry 3401 (class 0 OID 42387)
 -- Dependencies: 210
 -- Data for Name: ads_history; Type: TABLE DATA; Schema: public; Owner: -
 --
@@ -563,10 +597,13 @@ INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ad
 INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (6, 'UPDATE', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 0, '22 декабря 2021 г. - 22:01:22', 'Нижний Новгород', 'Генерала Ивлеева', '4', '', 10500000);
 INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (6, 'UPDATE', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 0, '22 декабря 2021 г. - 22:01:46', 'Нижний Новгород', 'Генерала Ивлеева', '4', '', 10500000);
 INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (6, 'DELETE', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 0, '22 декабря 2021 г. - 22:01:46', 'Нижний Новгород', 'Генерала Ивлеева', '4', '', 10500000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (7, 'INSERT', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 2, '23 декабря 2021 г. - 0:23:09', 'Нижний Новгород', 'Политехническая', '10', '', 4000000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (7, 'UPDATE', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 2, '23 декабря 2021 г. - 0:23:09', 'Нижний Новгород', 'Политехническая', '10', '', 4000000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (7, 'UPDATE', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 2, '23 декабря 2021 г. - 0:27:11', 'Нижний Новгород', 'Политехническая', '10', '', 3500000);
 
 
 --
--- TOC entry 3399 (class 0 OID 42393)
+-- TOC entry 3403 (class 0 OID 42393)
 -- Dependencies: 212
 -- Data for Name: houses; Type: TABLE DATA; Schema: public; Owner: -
 --
@@ -607,7 +644,7 @@ INSERT INTO public.houses (id, street_id, type, number, housing_number, land_are
 
 
 --
--- TOC entry 3401 (class 0 OID 42402)
+-- TOC entry 3405 (class 0 OID 42402)
 -- Dependencies: 214
 -- Data for Name: people; Type: TABLE DATA; Schema: public; Owner: -
 --
@@ -620,7 +657,7 @@ INSERT INTO public.people (id, surname, name, patronymic, phone, email, password
 
 
 --
--- TOC entry 3403 (class 0 OID 42408)
+-- TOC entry 3407 (class 0 OID 42408)
 -- Dependencies: 216
 -- Data for Name: settlements; Type: TABLE DATA; Schema: public; Owner: -
 --
@@ -649,7 +686,7 @@ INSERT INTO public.settlements (id, type, name) VALUES (15, 4, 'Пурех');
 
 
 --
--- TOC entry 3405 (class 0 OID 42415)
+-- TOC entry 3409 (class 0 OID 42415)
 -- Dependencies: 218
 -- Data for Name: streets; Type: TABLE DATA; Schema: public; Owner: -
 --
@@ -872,16 +909,16 @@ INSERT INTO public.streets (id, settlement_id, name) VALUES (222, 1, 'Ванее
 
 
 --
--- TOC entry 3418 (class 0 OID 0)
+-- TOC entry 3422 (class 0 OID 0)
 -- Dependencies: 211
 -- Name: ads_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.ads_id_seq', 6, true);
+SELECT pg_catalog.setval('public.ads_id_seq', 7, true);
 
 
 --
--- TOC entry 3419 (class 0 OID 0)
+-- TOC entry 3423 (class 0 OID 0)
 -- Dependencies: 213
 -- Name: houses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
@@ -890,7 +927,7 @@ SELECT pg_catalog.setval('public.houses_id_seq', 33, true);
 
 
 --
--- TOC entry 3420 (class 0 OID 0)
+-- TOC entry 3424 (class 0 OID 0)
 -- Dependencies: 215
 -- Name: people_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
@@ -899,7 +936,7 @@ SELECT pg_catalog.setval('public.people_id_seq', 5, true);
 
 
 --
--- TOC entry 3421 (class 0 OID 0)
+-- TOC entry 3425 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: settlements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
@@ -908,7 +945,7 @@ SELECT pg_catalog.setval('public.settlements_id_seq', 22, true);
 
 
 --
--- TOC entry 3422 (class 0 OID 0)
+-- TOC entry 3426 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: streets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
@@ -917,7 +954,7 @@ SELECT pg_catalog.setval('public.streets_id_seq', 222, true);
 
 
 --
--- TOC entry 3234 (class 2606 OID 42427)
+-- TOC entry 3236 (class 2606 OID 42427)
 -- Name: ads ads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -926,7 +963,7 @@ ALTER TABLE ONLY public.ads
 
 
 --
--- TOC entry 3238 (class 2606 OID 42429)
+-- TOC entry 3240 (class 2606 OID 42429)
 -- Name: houses houses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -935,7 +972,7 @@ ALTER TABLE ONLY public.houses
 
 
 --
--- TOC entry 3241 (class 2606 OID 42431)
+-- TOC entry 3243 (class 2606 OID 42431)
 -- Name: people people_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -944,7 +981,7 @@ ALTER TABLE ONLY public.people
 
 
 --
--- TOC entry 3245 (class 2606 OID 42433)
+-- TOC entry 3247 (class 2606 OID 42433)
 -- Name: settlements settlements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -953,7 +990,7 @@ ALTER TABLE ONLY public.settlements
 
 
 --
--- TOC entry 3249 (class 2606 OID 42435)
+-- TOC entry 3251 (class 2606 OID 42435)
 -- Name: streets streets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -962,7 +999,7 @@ ALTER TABLE ONLY public.streets
 
 
 --
--- TOC entry 3232 (class 1259 OID 42436)
+-- TOC entry 3234 (class 1259 OID 42436)
 -- Name: ads_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -970,7 +1007,7 @@ CREATE INDEX ads_id ON public.ads USING btree (id);
 
 
 --
--- TOC entry 3235 (class 1259 OID 42437)
+-- TOC entry 3237 (class 1259 OID 42437)
 -- Name: houses_find; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -978,7 +1015,7 @@ CREATE INDEX houses_find ON public.houses USING btree (number);
 
 
 --
--- TOC entry 3236 (class 1259 OID 42438)
+-- TOC entry 3238 (class 1259 OID 42438)
 -- Name: houses_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -986,7 +1023,7 @@ CREATE INDEX houses_id ON public.houses USING btree (id);
 
 
 --
--- TOC entry 3239 (class 1259 OID 42439)
+-- TOC entry 3241 (class 1259 OID 42439)
 -- Name: people_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -994,7 +1031,7 @@ CREATE INDEX people_id ON public.people USING btree (id);
 
 
 --
--- TOC entry 3242 (class 1259 OID 42440)
+-- TOC entry 3244 (class 1259 OID 42440)
 -- Name: settlements_find; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1002,7 +1039,7 @@ CREATE INDEX settlements_find ON public.settlements USING btree (name);
 
 
 --
--- TOC entry 3243 (class 1259 OID 42441)
+-- TOC entry 3245 (class 1259 OID 42441)
 -- Name: settlements_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1010,7 +1047,7 @@ CREATE INDEX settlements_id ON public.settlements USING btree (id);
 
 
 --
--- TOC entry 3246 (class 1259 OID 42442)
+-- TOC entry 3248 (class 1259 OID 42442)
 -- Name: streets_find; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1018,7 +1055,7 @@ CREATE INDEX streets_find ON public.streets USING btree (name);
 
 
 --
--- TOC entry 3247 (class 1259 OID 42443)
+-- TOC entry 3249 (class 1259 OID 42443)
 -- Name: streets_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1026,7 +1063,7 @@ CREATE INDEX streets_id ON public.streets USING btree (id);
 
 
 --
--- TOC entry 3256 (class 2620 OID 42444)
+-- TOC entry 3260 (class 2620 OID 42444)
 -- Name: ads ads_history_after_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -1034,7 +1071,7 @@ CREATE TRIGGER ads_history_after_trigger AFTER INSERT OR UPDATE ON public.ads FO
 
 
 --
--- TOC entry 3255 (class 2620 OID 42445)
+-- TOC entry 3259 (class 2620 OID 42445)
 -- Name: ads ads_history_before_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -1042,7 +1079,23 @@ CREATE TRIGGER ads_history_before_trigger BEFORE DELETE ON public.ads FOR EACH R
 
 
 --
--- TOC entry 3250 (class 2606 OID 42446)
+-- TOC entry 3258 (class 2620 OID 42482)
+-- Name: ads tr_sq_m_price_ins; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER tr_sq_m_price_ins AFTER INSERT ON public.ads FOR EACH ROW EXECUTE FUNCTION public.calculate_sq_m_price_ins();
+
+
+--
+-- TOC entry 3257 (class 2620 OID 42483)
+-- Name: ads tr_sq_m_price_upd; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER tr_sq_m_price_upd BEFORE UPDATE ON public.ads FOR EACH ROW EXECUTE FUNCTION public.calculate_sq_m_price_upd();
+
+
+--
+-- TOC entry 3252 (class 2606 OID 42446)
 -- Name: ads ads_house_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1051,7 +1104,7 @@ ALTER TABLE ONLY public.ads
 
 
 --
--- TOC entry 3251 (class 2606 OID 42451)
+-- TOC entry 3253 (class 2606 OID 42451)
 -- Name: ads ads_people_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1060,7 +1113,7 @@ ALTER TABLE ONLY public.ads
 
 
 --
--- TOC entry 3252 (class 2606 OID 42456)
+-- TOC entry 3254 (class 2606 OID 42456)
 -- Name: ads ads_settlement_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1069,7 +1122,7 @@ ALTER TABLE ONLY public.ads
 
 
 --
--- TOC entry 3253 (class 2606 OID 42461)
+-- TOC entry 3255 (class 2606 OID 42461)
 -- Name: houses houses_street_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1078,7 +1131,7 @@ ALTER TABLE ONLY public.houses
 
 
 --
--- TOC entry 3254 (class 2606 OID 42466)
+-- TOC entry 3256 (class 2606 OID 42466)
 -- Name: streets streets_settlement_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1086,7 +1139,7 @@ ALTER TABLE ONLY public.streets
     ADD CONSTRAINT streets_settlement_id_fkey FOREIGN KEY (settlement_id) REFERENCES public.settlements(id) ON DELETE CASCADE;
 
 
--- Completed on 2021-12-22 23:28:06
+-- Completed on 2021-12-23 00:32:46
 
 --
 -- PostgreSQL database dump complete
