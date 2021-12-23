@@ -5,7 +5,7 @@
 -- Dumped from database version 14.1
 -- Dumped by pg_dump version 14.1
 
--- Started on 2021-12-23 00:32:45
+-- Started on 2021-12-23 09:07:51
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -571,7 +571,14 @@ ALTER TABLE ONLY public.streets ALTER COLUMN id SET DEFAULT nextval('public.stre
 -- Data for Name: ads; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.ads (id, people_id, house_id, settlement_id, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, sewerage, bathroom_type, type, ads_text, price, publication_or_update_time, addition_information, settlement_house_type, price_per_sq_m) VALUES (7, 3, 29, NULL, 4, 76.6, 65, 13.5, true, false, true, 1, 2, 'Лучшее предложение за свои деньги!', 3500000, '23 декабря 2021 г. - 0:27:11', '', 0, 45691.9);
+INSERT INTO public.ads (id, people_id, house_id, settlement_id, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, sewerage, bathroom_type, type, ads_text, price, publication_or_update_time, addition_information, settlement_house_type, price_per_sq_m) VALUES (20, 6, 29, NULL, 2, 46, 32, 9, true, false, false, 1, 2, 'Надёжный частный дом в Нижнем Новгороде. Удобный подъезд. Развитая инфраструктура. ', 4800000, '23 декабря 2021 г. - 8:11:59', '', 0, 104347.8);
+INSERT INTO public.ads (id, people_id, house_id, settlement_id, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, sewerage, bathroom_type, type, ads_text, price, publication_or_update_time, addition_information, settlement_house_type, price_per_sq_m) VALUES (21, 6, 29, NULL, 2, 46, 32, 9, true, false, false, 1, 2, 'Надёжный частный дом в Нижнем Новгороде. Удобный подъезд. Развитая инфраструктура. ', 4800000, '23 декабря 2021 г. - 8:11:59', '', 0, 104347.8);
+INSERT INTO public.ads (id, people_id, house_id, settlement_id, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, sewerage, bathroom_type, type, ads_text, price, publication_or_update_time, addition_information, settlement_house_type, price_per_sq_m) VALUES (22, 7, 29, NULL, 2, 46, 32, 9, true, false, false, 1, 0, 'Надёжный частный дом в Нижнем Новгороде. Удобный подъезд. Развитая инфраструктура. ', 4800000, '23 декабря 2021 г. - 8:11:59', '', 0, 104347.8);
+INSERT INTO public.ads (id, people_id, house_id, settlement_id, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, sewerage, bathroom_type, type, ads_text, price, publication_or_update_time, addition_information, settlement_house_type, price_per_sq_m) VALUES (7, 3, 29, NULL, 2, 46, 32, 9, true, false, false, 1, 2, 'Надёжный частный дом в Нижнем Новгороде. Удобный подъезд. Развитая инфраструктура. ', 4800000, '23 декабря 2021 г. - 8:11:59', '', 0, 104347.8);
+INSERT INTO public.ads (id, people_id, house_id, settlement_id, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, sewerage, bathroom_type, type, ads_text, price, publication_or_update_time, addition_information, settlement_house_type, price_per_sq_m) VALUES (8, 3, 29, NULL, 2, 46, 32, 9, true, false, false, 1, 2, 'Надёжный частный дом в Нижнем Новгороде. Удобный подъезд. Развитая инфраструктура. ', 4800000, '23 декабря 2021 г. - 8:11:59', '', 0, 104347.8);
+INSERT INTO public.ads (id, people_id, house_id, settlement_id, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, sewerage, bathroom_type, type, ads_text, price, publication_or_update_time, addition_information, settlement_house_type, price_per_sq_m) VALUES (9, 3, 29, NULL, 2, 46, 32, 9, true, false, false, 1, 0, 'Надёжный частный дом в Нижнем Новгороде. Удобный подъезд. Развитая инфраструктура. ', 4800000, '23 декабря 2021 г. - 8:11:59', '', 0, 104347.8);
+INSERT INTO public.ads (id, people_id, house_id, settlement_id, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, sewerage, bathroom_type, type, ads_text, price, publication_or_update_time, addition_information, settlement_house_type, price_per_sq_m) VALUES (18, 5, 29, NULL, 2, 46, 32, 9, true, false, false, 1, 2, 'Надёжный частный дом в Нижнем Новгороде. Удобный подъезд. Развитая инфраструктура. ', 4800000, '23 декабря 2021 г. - 8:11:59', '', 0, 104347.8);
+INSERT INTO public.ads (id, people_id, house_id, settlement_id, rooms_count, total_area, living_area, kitchen_area, water_pipes, gas, sewerage, bathroom_type, type, ads_text, price, publication_or_update_time, addition_information, settlement_house_type, price_per_sq_m) VALUES (19, 6, 29, NULL, 2, 46, 32, 9, true, false, false, 1, 0, 'Надёжный частный дом в Нижнем Новгороде. Удобный подъезд. Развитая инфраструктура. ', 4800000, '23 декабря 2021 г. - 8:11:59', '', 0, 104347.8);
 
 
 --
@@ -600,6 +607,28 @@ INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ad
 INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (7, 'INSERT', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 2, '23 декабря 2021 г. - 0:23:09', 'Нижний Новгород', 'Политехническая', '10', '', 4000000);
 INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (7, 'UPDATE', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 2, '23 декабря 2021 г. - 0:23:09', 'Нижний Новгород', 'Политехническая', '10', '', 4000000);
 INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (7, 'UPDATE', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 2, '23 декабря 2021 г. - 0:27:11', 'Нижний Новгород', 'Политехническая', '10', '', 3500000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (8, 'INSERT', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 2, '23 декабря 2021 г. - 7:38:32', 'Нижний Новгород', 'Терешковой', '226', '3', 2750000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (8, 'UPDATE', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 2, '23 декабря 2021 г. - 7:38:32', 'Нижний Новгород', 'Терешковой', '226', '3', 2750000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (9, 'INSERT', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 0, '23 декабря 2021 г. - 7:41:13', 'Нижний Новгород', 'Генкиной', '31А', '', 16450000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (9, 'UPDATE', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 0, '23 декабря 2021 г. - 7:41:13', 'Нижний Новгород', 'Генкиной', '31А', '', 16450000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (18, 'INSERT', 'Лазков', 'Игорь', 'Иосифович', '+71511511552', 2, '23 декабря 2021 г. - 7:56:10', 'Нижний Новгород', 'Генкиной', '80', '', 3200000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (18, 'UPDATE', 'Лазков', 'Игорь', 'Иосифович', '+71511511552', 2, '23 декабря 2021 г. - 7:56:10', 'Нижний Новгород', 'Генкиной', '80', '', 3200000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (19, 'INSERT', 'Кунаев', 'Антон', 'Павлочич', '+78007456556', 0, '23 декабря 2021 г. - 8:02:12', 'Нижний Новгород', 'Деловая', '78', '3', 9580000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (19, 'UPDATE', 'Кунаев', 'Антон', 'Павлочич', '+78007456556', 0, '23 декабря 2021 г. - 8:02:12', 'Нижний Новгород', 'Деловая', '78', '3', 9580000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (20, 'INSERT', 'Кунаев', 'Антон', 'Павлочич', '+78007456556', 2, '23 декабря 2021 г. - 8:05:53', 'Нижний Новгород', 'Варварская', '12', '', 7200000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (20, 'UPDATE', 'Кунаев', 'Антон', 'Павлочич', '+78007456556', 2, '23 декабря 2021 г. - 8:05:53', 'Нижний Новгород', 'Варварская', '12', '', 7200000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (21, 'INSERT', 'Кунаев', 'Антон', 'Павлочич', '+78007456556', 2, '23 декабря 2021 г. - 8:07:44', 'Нижний Новгород', 'Генкиной', '59', '', 5700000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (21, 'UPDATE', 'Кунаев', 'Антон', 'Павлочич', '+78007456556', 2, '23 декабря 2021 г. - 8:07:44', 'Нижний Новгород', 'Генкиной', '59', '', 5700000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (22, 'INSERT', 'Калинин ', 'Владислав', 'Дмитриевич', '+78888888888', 0, '23 декабря 2021 г. - 8:11:39', 'Нижний Новгород', 'Политехническая', '10', '', 4600000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (22, 'UPDATE', 'Калинин ', 'Владислав', 'Дмитриевич', '+78888888888', 0, '23 декабря 2021 г. - 8:11:39', 'Нижний Новгород', 'Политехническая', '10', '', 4600000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (20, 'UPDATE', 'Кунаев', 'Антон', 'Павлочич', '+78007456556', 2, '23 декабря 2021 г. - 8:11:59', 'Нижний Новгород', 'Политехническая', '10', '', 4800000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (21, 'UPDATE', 'Кунаев', 'Антон', 'Павлочич', '+78007456556', 2, '23 декабря 2021 г. - 8:11:59', 'Нижний Новгород', 'Политехническая', '10', '', 4800000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (22, 'UPDATE', 'Калинин ', 'Владислав', 'Дмитриевич', '+78888888888', 0, '23 декабря 2021 г. - 8:11:59', 'Нижний Новгород', 'Политехническая', '10', '', 4800000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (7, 'UPDATE', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 2, '23 декабря 2021 г. - 8:11:59', 'Нижний Новгород', 'Политехническая', '10', '', 4800000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (8, 'UPDATE', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 2, '23 декабря 2021 г. - 8:11:59', 'Нижний Новгород', 'Политехническая', '10', '', 4800000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (9, 'UPDATE', 'Краеведов', 'Роман', 'Александрович', '+79200545698', 0, '23 декабря 2021 г. - 8:11:59', 'Нижний Новгород', 'Политехническая', '10', '', 4800000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (18, 'UPDATE', 'Лазков', 'Игорь', 'Иосифович', '+71511511552', 2, '23 декабря 2021 г. - 8:11:59', 'Нижний Новгород', 'Политехническая', '10', '', 4800000);
+INSERT INTO public.ads_history (id, action, surname, name, patronymic, phone, ads_type, date_time, settlements_name, street_name, house_number, housing_number, price) VALUES (19, 'UPDATE', 'Кунаев', 'Антон', 'Павлочич', '+78007456556', 0, '23 декабря 2021 г. - 8:11:59', 'Нижний Новгород', 'Политехническая', '10', '', 4800000);
 
 
 --
@@ -641,6 +670,7 @@ INSERT INTO public.houses (id, street_id, type, number, housing_number, land_are
 INSERT INTO public.houses (id, street_id, type, number, housing_number, land_area) VALUES (31, 219, 0, '23', '', 640);
 INSERT INTO public.houses (id, street_id, type, number, housing_number, land_area) VALUES (32, 219, 0, '99', '', 735);
 INSERT INTO public.houses (id, street_id, type, number, housing_number, land_area) VALUES (33, 219, 0, '61А', '', 900);
+INSERT INTO public.houses (id, street_id, type, number, housing_number, land_area) VALUES (34, 199, 1, '226', '3', 0);
 
 
 --
@@ -654,6 +684,8 @@ INSERT INTO public.people (id, surname, name, patronymic, phone, email, password
 INSERT INTO public.people (id, surname, name, patronymic, phone, email, password) VALUES (3, 'Краеведов', 'Роман', 'Александрович', '+79200545698', 'roman.al@gmail.com', '3A3434393728');
 INSERT INTO public.people (id, surname, name, patronymic, phone, email, password) VALUES (4, 'Ванятов', 'Станислав', 'Владимирович', '+71511511551', 'stan@stan.ru', '3837302530252A2D');
 INSERT INTO public.people (id, surname, name, patronymic, phone, email, password) VALUES (5, 'Лазков', 'Игорь', 'Иосифович', '+71511511552', 'no@no.igor', '22243E39');
+INSERT INTO public.people (id, surname, name, patronymic, phone, email, password) VALUES (6, 'Кунаев', 'Антон', 'Павлочич', '+78007456556', 'anton@gmail.com', '2A2D25242D');
+INSERT INTO public.people (id, surname, name, patronymic, phone, email, password) VALUES (7, 'Калинин ', 'Владислав', 'Дмитриевич', '+78888888888', 'kalinin@yandex.ru', '20223D222D3825');
 
 
 --
@@ -914,7 +946,7 @@ INSERT INTO public.streets (id, settlement_id, name) VALUES (222, 1, 'Ванее
 -- Name: ads_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.ads_id_seq', 7, true);
+SELECT pg_catalog.setval('public.ads_id_seq', 22, true);
 
 
 --
@@ -923,7 +955,7 @@ SELECT pg_catalog.setval('public.ads_id_seq', 7, true);
 -- Name: houses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.houses_id_seq', 33, true);
+SELECT pg_catalog.setval('public.houses_id_seq', 34, true);
 
 
 --
@@ -932,7 +964,7 @@ SELECT pg_catalog.setval('public.houses_id_seq', 33, true);
 -- Name: people_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.people_id_seq', 5, true);
+SELECT pg_catalog.setval('public.people_id_seq', 7, true);
 
 
 --
@@ -1139,7 +1171,7 @@ ALTER TABLE ONLY public.streets
     ADD CONSTRAINT streets_settlement_id_fkey FOREIGN KEY (settlement_id) REFERENCES public.settlements(id) ON DELETE CASCADE;
 
 
--- Completed on 2021-12-23 00:32:46
+-- Completed on 2021-12-23 09:07:51
 
 --
 -- PostgreSQL database dump complete
